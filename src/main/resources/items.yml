@@ -1,10 +1,10 @@
-# 阅读wiki获取更多信息: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Items
+# Read the wiki for more information: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Items
 EXAMPLE_ITEM:
   category: slime_customizer
   item-type: CUSTOM
-  item-name: "&b示例物品"
+  item-name: "&bExample Item"
   item-lore:
-  - "&7这是一个示例物品!"
+  - "&7This is an example item!"
   item-id: STICK
   item-amount: 1
   placeable: false
