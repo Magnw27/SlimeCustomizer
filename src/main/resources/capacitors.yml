@@ -1,9 +1,9 @@
-# 阅读wiki获取更多信息: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Capacitors
+# Read the wiki for more information: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Capacitors
 EXAMPLE_CAPACITOR:
   category: slime_customizer
-  capacitor-name: "&b示例电容"
+  capacitor-name: "&bExample Capacitor"
   capacitor-lore:
-  - "&7这是个示例电容!"
+  - "&7This is an example capacitor!"
   block-type: DEFAULT
   capacity: 114514
   item-amount: 1
