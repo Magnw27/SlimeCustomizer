@@ -29,8 +29,8 @@ public class GeoResources {
     public static boolean register(Config geoResources) {
         for (String geoKey : geoResources.getKeys()) {
             if (geoKey.equals("EXAMPLE_GEO")) {
-                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "geo-resources.yml 文件中仍包含示例配置! " +
-                    "你是不是忘记配置了?");
+                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "geo-resources.yml still contains the example configuration! " +
+                    "Did you forget to configure it?");
             }
 
             String itemType = geoResources.getString(geoKey + ".item-type");
@@ -44,15 +44,15 @@ public class GeoResources {
             int maxDeviation = geoResources.getOrSetDefault(geoKey + ".max-deviation", 0);
 
             if (itemType == null) {
-                Utils.disable(geoKey + "未设置 item-type!");
+                Utils.disable(geoKey + " has not set item-type!");
                 return false;
             }
             if (itemId == null) {
-                Utils.disable(geoKey + "未设置 item-id!");
+                Utils.disable(geoKey + " has not set item-id!");
                 return false;
             }
             if (maxDeviation < 0) {
-                Utils.disable(geoKey + "的 max-deviation 不能小于0!");
+                Utils.disable(geoKey + "'s max-deviation cannot be less than 0!");
                 return false;
             }
 
@@ -62,7 +62,7 @@ public class GeoResources {
 
                 /* Item material type */
                 if (material == null && !itemId.startsWith("SKULL")) {
-                    Utils.disable(geoKey + "的 item-id 无效!");
+                    Utils.disable(geoKey + "'s item-id is invalid!");
                     return false;
                 } else if (material != null) {
                     item = new ItemStack(material);
@@ -85,7 +85,7 @@ public class GeoResources {
 
                 tempStack = new SlimefunItemStack(geoKey, item);
             } else {
-                Utils.disable(geoKey + "的 item-type 只能为 CUSTOM 或 SAVEDITEM!");
+                Utils.disable(geoKey + "'s item-type can only be CUSTOM or SAVEDITEM!");
                 return false;
             }
 
@@ -95,7 +95,7 @@ public class GeoResources {
             ConfigurationSection biomes = geoResources.getConfiguration().getConfigurationSection(geoKey + ".biome");
             ConfigurationSection environments = geoResources.getConfiguration().getConfigurationSection(geoKey + ".environment");
             if (biomes == null && environments == null) {
-                Utils.disable(geoKey + "未进行生物群系或世界类型配置!");
+                Utils.disable(geoKey + " has no biome or environment configured!");
                 return false;
             }
 
@@ -107,19 +107,19 @@ public class GeoResources {
                     try {
                         biome = Biome.valueOf(biomeKey);
                     } catch (IllegalArgumentException ex) {
-                        Utils.disable(geoKey + "的生物群系 " + biomeKey + " 不是有效的生物群系!");
+                        Utils.disable(geoKey + "'s biome " + biomeKey + " is not a valid biome!");
                         return false;
                     }
 
                     try {
                         amount = Integer.parseInt(biomes.getString(biomeKey));
                     } catch (NumberFormatException ex) {
-                        Utils.disable(geoKey + "的生物群系 " + biomeKey + " 的数量无效!");
+                        Utils.disable(geoKey + "'s biome " + biomeKey + " has an invalid amount!");
                         return false;
                     }
 
                     if (amount < 0) {
-                        Utils.disable(geoKey + "的生物群系 " + biomeKey + " 的数量不能是负数!");
+                        Utils.disable(geoKey + "'s biome " + biomeKey + " amount cannot be negative!");
                         return false;
                     }
 
@@ -135,19 +135,19 @@ public class GeoResources {
                     try {
                         environment = World.Environment.valueOf(environmentKey);
                     } catch (IllegalArgumentException ex) {
-                        Utils.disable(geoKey + "的世界类型 " + environmentKey + " 不是有效的世界类型!");
+                        Utils.disable(geoKey + "'s environment " + environmentKey + " is not a valid environment!");
                         return false;
                     }
 
                     try {
                         amount = Integer.parseInt(environments.getString(environmentKey));
                     } catch (NumberFormatException ex) {
-                        Utils.disable(geoKey + "的世界类型 " + environmentKey + " 的数量无效!");
+                        Utils.disable(geoKey + "'s environment " + environmentKey + " has an invalid amount!");
                         return false;
                     }
 
                     if (amount < 0) {
-                        Utils.disable(geoKey + "的世界类型 " + environmentKey + " 的数量不能是负数!");
+                        Utils.disable(geoKey + "'s environment " + environmentKey + " amount cannot be negative!");
                         return false;
                     }
 
@@ -163,7 +163,7 @@ public class GeoResources {
                 ).registerGeo(SlimeCustomizer.getInstance());
             }
 
-            Utils.notify("已注册GEO资源 " + geoKey + "!");
+            Utils.notify("Registered GEO resource " + geoKey + "!");
         }
 
         return true;
