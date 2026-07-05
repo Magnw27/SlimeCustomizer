@@ -23,8 +23,8 @@ public class Capacitors {
     public static boolean register(Config capacitors) {
         for (String capacitorKey : capacitors.getKeys()) {
             if (capacitorKey.equals("EXAMPLE_CAPACITOR")) {
-                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "capacitors.yml 仍包含示例电容! " +
-                    "你是不是忘记配置了?");
+                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "capacitors.yml still contains the example capacitor! " +
+                    "Did you forget to configure it?");
             }
 
             ItemGroup category = Utils.getCategory(capacitors.getString(capacitorKey + ".category"), capacitorKey);
@@ -38,11 +38,11 @@ public class Capacitors {
             int amount = capacitors.getOrSetDefault(capacitorKey + ".item-amount", 1);
 
             if (blockType == null) {
-                Utils.disable(capacitorKey + "未设置 block-type!");
+                Utils.disable(capacitorKey + " has not set block-type!");
                 return false;
             }
             if (amount < 1) {
-                Utils.disable(capacitorKey + "的 item-amount 必须为正整数!");
+                Utils.disable(capacitorKey + "'s item-amount must be a positive integer!");
                 return false;
             }
 
@@ -50,12 +50,12 @@ public class Capacitors {
             try {
                 capacity = Integer.parseInt(capacitors.getString(capacitorKey + ".capacity"));
             } catch (NumberFormatException ex) {
-                Utils.disable(capacitorKey + "的 capacity 必须为正整数!");
+                Utils.disable(capacitorKey + "'s capacity must be a positive integer!");
                 return false;
             }
 
             if (capacity < 1) {
-                Utils.disable(capacitorKey + "的 capacity 必须为正整数!");
+                Utils.disable(capacitorKey + "'s capacity must be a positive integer!");
                 return false;
             }
 
@@ -63,7 +63,7 @@ public class Capacitors {
 
             /* Item material type */
             if ((material == null || !material.isBlock()) && !blockType.equalsIgnoreCase("default")) {
-                Utils.disable(capacitorKey + "的 block-type 必须为方块或default!");
+                Utils.disable(capacitorKey + "'s block-type must be a block or default!");
                 return false;
             } else if (material != null && material.isBlock()) {
                 block = new ItemStack(material);
@@ -75,7 +75,7 @@ public class Capacitors {
                 capacitors.getStringList(capacitorKey + ".capacitor-lore").stream(),
                 Stream.of(
                     "",
-                    "&e电容",
+                    "&eCapacitor",
                     LoreBuilderDynamic.powerBuffer(capacity)
                 )
             ).collect(Collectors.toList()));
@@ -94,7 +94,7 @@ public class Capacitors {
             String recipeTypeString = capacitors.getString(capacitorKey + ".crafting-recipe-type");
             RecipeType recipeType = Utils.getRecipeType(recipeTypeString, capacitorKey);
             if (recipeType == null) {
-                Utils.disable(capacitorKey + "的 crafting-recipe-type 无效! 请查阅wiki.");
+                Utils.disable(capacitorKey + "'s crafting-recipe-type is invalid! Please check the wiki.");
                 return false;
             }
 
@@ -105,7 +105,7 @@ public class Capacitors {
             new Capacitor(category, capacity, tempStack, recipeType, recipe)
                 .register(SlimeCustomizer.getInstance());
 
-            Utils.notify("已注册电容 " + capacitorKey + "!");
+            Utils.notify("Registered capacitor " + capacitorKey + "!");
         }
 
         return true;
