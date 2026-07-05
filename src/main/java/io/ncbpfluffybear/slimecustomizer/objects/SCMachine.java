@@ -48,7 +48,7 @@ public class SCMachine {
 
         String progressString = config.getString(key + ".progress-bar-item");
         if (progressString == null) {
-            Utils.disable(key + "的 progress-bar-item 必须为原版物品ID!");
+            Utils.disable(key + "'s progress-bar-item must be a vanilla item ID!");
         }
         progressItem = Material.getMaterial(progressString);
 
@@ -66,7 +66,7 @@ public class SCMachine {
         /* Machine block type */
         Material material = Material.getMaterial(materialString);
         if ((material == null || !material.isBlock()) && !materialString.startsWith("SKULL")) {
-            Utils.disable(key + "的 block-type 必须为方块!");
+            Utils.disable(key + "'s block-type must be a block!");
         } else if (material != null && material.isBlock()) {
             block = new ItemStack(material);
         } else if (materialString.startsWith("SKULL")) {
@@ -75,7 +75,7 @@ public class SCMachine {
 
         /* Progress bar type */
         if (progressItem == null) {
-            Utils.disable(key + "的 progress-bar-item 不是有效的原版物品ID!");
+            Utils.disable(key + "'s progress-bar-item is not a valid vanilla item ID!");
         }
 
         if (machineType.equalsIgnoreCase("machine")) {
@@ -84,11 +84,11 @@ public class SCMachine {
                 energyConsumption = Integer.parseInt(config.getString(key + ".stats.energy-consumption"));
                 energyBuffer = Integer.parseInt(config.getString(key + ".stats.energy-buffer"));
             } catch (NumberFormatException e) {
-                Utils.disable(key + "的 energy-consumption 与 energy-buffer 必须为正整数!");
+                Utils.disable(key + "'s energy-consumption and energy-buffer must be positive integers!");
             }
 
             if (energyConsumption < 0 || energyBuffer < 0) {
-                Utils.disable(key + "的 energy-consumption 与 energy-buffer 必须为正整数!");
+                Utils.disable(key + "'s energy-consumption and energy-buffer must be positive integers!");
             }
 
         } else if (machineType.equalsIgnoreCase("generator")) {
@@ -97,11 +97,11 @@ public class SCMachine {
                 energyProduction = Integer.parseInt(config.getString(key + ".stats.energy-production"));
                 energyBuffer = Integer.parseInt(config.getString(key + ".stats.energy-buffer"));
             } catch (NumberFormatException e) {
-                Utils.disable(key + "的 energy-consumption 与 energy-buffer 必须为正整数!");
+                Utils.disable(key + "'s energy-consumption and energy-buffer must be positive integers!");
             }
 
             if (energyProduction < 0 || energyBuffer < 0) {
-                Utils.disable(key + "的 energy-consumption 与 energy-buffer 必须为正整数!");
+                Utils.disable(key + "'s energy-consumption and energy-buffer must be positive integers!");
             }
         }
 
@@ -130,9 +130,9 @@ public class SCMachine {
 
     private String getMachineTag() {
         if (machineType.equalsIgnoreCase("machine")) {
-            return "&b机器";
+            return "&bMachine";
         } else if (machineType.equalsIgnoreCase("generator")) {
-            return "&a发电机";
+            return "&aGenerator";
         }
 
         return null;
