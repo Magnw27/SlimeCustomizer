@@ -47,12 +47,12 @@ public class Utils {
     ));
 
     public static void send(CommandSender s, String msg) {
-        s.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[&a自定义粘液附属&a&l]&7 " + msg));
+        s.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[&aSlime Customizer&a&l]&7 " + msg));
     }
 
     public static boolean checkPermission(Player p, String permission) {
         if (!p.hasPermission(permission)) {
-            Utils.send(p, "&c你没有权限使用该指令!");
+            Utils.send(p, "&cYou do not have permission to use this command!");
             return false;
         }
 
@@ -64,17 +64,17 @@ public class Utils {
     }
 
     public static void notify(String reason) {
-        Bukkit.getConsoleSender().sendMessage("[自定义粘液附属] " + ChatColor.GREEN + reason);
+        Bukkit.getConsoleSender().sendMessage("[Slime Customizer] " + ChatColor.GREEN + reason);
     }
 
     public static void disable(String reason) {
-        Bukkit.getLogger().log(Level.SEVERE, "[自定义粘液附属] " + reason);
+        Bukkit.getLogger().log(Level.SEVERE, "[Slime Customizer] " + reason);
         Bukkit.getPluginManager().disablePlugin(SlimeCustomizer.getInstance());
     }
 
     public static boolean checkFitsStackSize(ItemStack item, String slot, String machineKey, String recipeKey) {
         if (item.getAmount() > item.getMaxStackSize()) {
-            disable(machineKey + " 的配方" + recipeKey + "的" + slot + "物品一组最多只能有" + item.getMaxStackSize() + "!");
+            disable(machineKey + "'s recipe " + recipeKey + "'s " + slot + " item can only have a max stack size of " + item.getMaxStackSize() + "!");
             return false;
         }
         return true;
@@ -107,25 +107,25 @@ public class Utils {
             int amount = file.getOrSetDefault(path + "." + configIndex + ".amount", 1);
 
             if (material == null) {
-                Utils.disable(key + "的合成配方物品" + configIndex + "的 id 不能为空!");
+                Utils.disable(key + "'s recipe item " + configIndex + "'s id cannot be empty!");
                 return null;
             }
             if (amount < 1) {
-                Utils.disable(key + "的合成配方物品" + configIndex + "的 amount 必须为正整数!");
+                Utils.disable(key + "'s recipe item " + configIndex + "'s amount must be a positive integer!");
                 return null;
             }
 
             // Only certain multiblock machines can use stack sizes larger than 1
             if (STACK_LIMITED_MACHINES.contains(recipeType) && amount > 1) {
-                disable("配方类型 " + recipeType.getKey().getKey().toUpperCase() + " 不能使用数量大于1的物品作为配方物品!" +
-                    " 请更改" + key + " 的 crafting-recipe-type 或 crafting-recipe." + configIndex + ".amount。");
+                disable("Recipe type " + recipeType.getKey().getKey().toUpperCase() + " cannot use items with an amount greater than 1 as recipe items!" +
+                    " Please change " + key + "'s crafting-recipe-type or crafting-recipe." + configIndex + ".amount.");
                 return null;
             }
 
             if (type.equalsIgnoreCase("VANILLA")) {
                 Material vanillaMat = Material.getMaterial(material);
                 if (vanillaMat == null) {
-                    Utils.disable(key + "的合成配方物品" + configIndex + "的 id 不是有效的原版物品ID!");
+                    Utils.disable(key + "'s recipe item " + configIndex + "'s id is not a valid vanilla item ID!");
                     return null;
                 } else {
                     recipe[i] = new ItemStack(vanillaMat, amount);
@@ -133,7 +133,7 @@ public class Utils {
             } else if (type.equalsIgnoreCase("SLIMEFUN")) {
                 SlimefunItem sfMat = SlimefunItem.getById(material);
                 if (sfMat == null) {
-                    Utils.disable(key + "的合成配方物品" + configIndex + "的 id 不是有效的粘液科技物品ID!");
+                    Utils.disable(key + "'s recipe item " + configIndex + "'s id is not a valid Slimefun item ID!");
                     return null;
                 } else {
                     recipe[i] = new CustomItemStack(sfMat.getItem().clone(), amount);
@@ -141,8 +141,8 @@ public class Utils {
             } else if (type.equalsIgnoreCase("SAVEDITEM")) {
                 recipe[i] = retrieveSavedItem(material, amount, true);
             } else {
-                Utils.disable(key + "的合成配方物品" + configIndex
-                    + " 的类型只能为: VANILLA, SLIMEFUN, SAVEDITEM, 或 NONE!");
+                Utils.disable(key + "'s recipe item " + configIndex
+                    + "'s type can only be: VANILLA, SLIMEFUN, SAVEDITEM, or NONE!");
                 return null;
             }
         }
@@ -151,7 +151,7 @@ public class Utils {
 
         Registry.existingRecipes.forEach((itemStacks, recipeTypePair) -> {
             if (Arrays.equals(itemStacks, recipe) && recipeType == recipeTypePair.getFirstValue()) {
-                Utils.disable(key + " 的合成配方重复,该配方已经用于 "
+                Utils.disable(key + "'s recipe duplicates an existing recipe, this recipe is already used for "
                     + recipeTypePair.getSecondValue());
                 invalid.set(true);
             }
@@ -169,7 +169,7 @@ public class Utils {
 
     public static ItemStack getBlockFromConfig(String key, String materialString) {
         if (materialString == null) {
-            Utils.disable(key + " 未设置 block-type!");
+            Utils.disable(key + " has not set block-type!");
             return null;
         }
 
@@ -177,7 +177,7 @@ public class Utils {
         Material material = Material.getMaterial(materialString);
 
         if ((material == null || !material.isBlock()) && !materialString.startsWith("SKULL")) {
-            Utils.disable(key + " 的 block-type 必须为方块!");
+            Utils.disable(key + "'s block-type must be a block!");
             return null;
         } else if (material != null && material.isBlock()) {
             block = new ItemStack(material);
@@ -257,8 +257,8 @@ public class Utils {
                     config.setValue(transportPath + ".2.id", "N/A");
                     config.setValue(transportPath + ".2.amount", 1);
 
-                    Bukkit.getLogger().log(Level.WARNING, "物品 " + key + " 的配置已更新至新版输入/输出! " +
-                        "前往 " + Links.ADDING_YOUR_MACHINE + " 了解更多!");
+                    Bukkit.getLogger().log(Level.WARNING, "The item " + key + "'s config has been updated to the new input/output format! " +
+                        "Visit " + Links.ADDING_YOUR_MACHINE + " to learn more!");
                 }
             }
         }
@@ -272,9 +272,9 @@ public class Utils {
         }
 
         config.setValue(key + ".placeable", false);
-        Bukkit.getLogger().log(Level.WARNING, "物品 " + key + " 添加了 placeable 配置项, 该选项默认为 false! " +
-                "前往 " + Links.ADDING_YOUR_ITEM + " 了解此配置项!");
-        Bukkit.getLogger().log(Level.SEVERE, "如果该物品为可放置的，你需要立即修改该选项!");
+        Bukkit.getLogger().log(Level.WARNING, "Item " + key + " has been given the placeable config option, which defaults to false! " +
+                "Visit " + Links.ADDING_YOUR_ITEM + " to learn about this config option!");
+        Bukkit.getLogger().log(Level.SEVERE, "If this item is placeable, you need to change this option immediately!");
         config.save();
     }
 
@@ -282,7 +282,7 @@ public class Utils {
         File serializedItemFile = new File(SlimeCustomizer.getInstance().getDataFolder(), "saveditems/" + id + ".yml");
         if (!serializedItemFile.exists()) {
             if (disableIfNull) {
-                disable("无法在保存物品目录中找到 " + id + "! 需要确保这是yml文件!");
+                disable("Unable to find " + id + " in the saved items directory! Make sure this is a yml file!");
             }
             return null;
         } else {
@@ -298,8 +298,8 @@ public class Utils {
         }
         switch (str.toUpperCase()) {
             case "ENCHANTED_CRAFTING_TABLE":
-                Bukkit.getLogger().log(Level.WARNING, "嘿，伙计！应该是增强型(ENHANCED)工作台，而不是附魔(ENCHANTED)工作台。. " +
-                    "不用担心，我懂你的意思，但你也许应该修复这个小错误。");
+                Bukkit.getLogger().log(Level.WARNING, "Hey, buddy! It's ENHANCED crafting table, not ENCHANTED. " +
+                    "Don't worry, I know what you meant, but you might want to fix that little mistake.");
                 return RecipeType.ENHANCED_CRAFTING_TABLE;
             case "ENHANCED_CRAFTING_TABLE":
                 return RecipeType.ENHANCED_CRAFTING_TABLE;
@@ -333,7 +333,7 @@ public class Utils {
         if (str.startsWith("existing:")) { // Add an item to a category from another addon/core sf
             String[] existingCat = str.substring(9).split(":");
             if (existingCat.length != 2) {
-                disable("分类 " + key + " 格式错误。 示例: existing:slimefun:misc");
+                disable("Category " + key + " format is incorrect. Example: existing:slimefun:misc");
                 return null;
             }
             for (ItemGroup itemGroup : Slimefun.getRegistry().getAllItemGroups()) {
@@ -342,13 +342,13 @@ public class Utils {
                 }
             }
 
-            disable(existingCat[0] + ":" + existingCat[1] + " 不是有效的分类: " + key + "!");
+            disable(existingCat[0] + ":" + existingCat[1] + " is not a valid category: " + key + "!");
             return null;
         }
 
         ItemGroup category = Registry.allItemGroups.get(str); // Add an item to a SC created category
         if (category == null || category instanceof NestedItemGroup) {
-            disable(key + "的分类 " + str + " 不是有效的分类!");
+            disable(key + "'s category " + str + " is not a valid category!");
         }
         return category;
     }
