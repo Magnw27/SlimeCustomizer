@@ -1,22 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>io.ncbpfluffybear</groupId>
     <artifactId>SlimeCustomizer</artifactId>
     <version>1.0.0</version>
 
     <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <!-- Samakan dengan Slimefun -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
+
         <repository>
-            <id>paper-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
         <repository>
@@ -25,87 +29,145 @@
         </repository>
 
         <repository>
+            <id>gugu-maven-repo</id>
+            <url>https://maven.norain.city/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
 
         <repository>
-            <id>bstats-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
+            <id>codemc</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
 
         <repository>
-            <id>sonatype-snapshot</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
         </repository>
+
     </repositories>
 
     <build>
-        <finalName>${project.name} v${project.version}</finalName>
+
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
         <defaultGoal>clean package</defaultGoal>
-        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
 
         <resources>
+
             <resource>
-                <directory>${basedir}/src/main/resources</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+
                 <includes>
                     <include>*</include>
                     <include>saveditems/*.yml</include>
                 </includes>
+
             </resource>
+
         </resources>
 
         <plugins>
+
             <plugin>
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+
+                <configuration>
+
+                    <source>17</source>
+                    <target>17</target>
+
+                    <annotationProcessorPaths>
+
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.34</version>
+                        </path>
+
+                    </annotationProcessorPaths>
+
+                </configuration>
+
+            </plugin>
+
+            <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.6.0</version>
+
                 <configuration>
+
                     <minimizeJar>true</minimizeJar>
+
                     <relocations>
+
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>io.ncbpfluffybear.slimecustomizer.bstats</shadedPattern>
-                            <excludes>
-                                <exclude>META-INF/*.MF</exclude>
-                            </excludes>
                         </relocation>
+
                         <relocation>
                             <pattern>dev.j3fftw.extrautils</pattern>
                             <shadedPattern>io.ncbpfluffybear.slimecustomizer.extrautils</shadedPattern>
-                            <excludes>
-                                <exclude>META-INF/*.MF</exclude>
-                            </excludes>
                         </relocation>
+
                     </relocations>
+
                 </configuration>
+
                 <executions>
+
                     <execution>
+
                         <phase>package</phase>
+
                         <goals>
                             <goal>shade</goal>
                         </goals>
+
                     </execution>
+
                 </executions>
+
             </plugin>
+
         </plugins>
+
     </build>
 
     <dependencies>
+
+        <!-- Paper API -->
+
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
+        <!-- Slimefun lokal -->
+
         <dependency>
-            <groupId>com.github.StarWishsama</groupId>
-            <artifactId>Slimefun4</artifactId>
-            <version>2024.3</version>
+            <groupId>com.github.slimefun</groupId>
+            <artifactId>Slimefun</artifactId>
+            <version>DEV-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- ExtraUtils -->
 
         <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
@@ -113,12 +175,24 @@
             <version>5a85ca6293</version>
         </dependency>
 
+        <!-- GuizhanLib -->
+
+        <dependency>
+            <groupId>net.guizhanss</groupId>
+            <artifactId>GuizhanLibPlugin</artifactId>
+            <version>2.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- bStats -->
+
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
+            <version>3.0.2</version>
         </dependency>
+
+        <!-- Lombok -->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -127,6 +201,8 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Nullable -->
+
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
@@ -134,11 +210,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>net.guizhanss</groupId>
-            <artifactId>GuizhanLibPlugin</artifactId>
-            <version>2.1.0</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
+
 </project>
