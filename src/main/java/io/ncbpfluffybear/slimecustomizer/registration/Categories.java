@@ -32,7 +32,7 @@ public class Categories {
 
     public static boolean register(Config categories) {
         if (categories.getKeys().isEmpty()) {
-            Utils.disable("没有任何分类！请在 categories.yml 中至少添加一个分类。");
+            Utils.disable("No categories found! Please add at least one category in categories.yml.");
             return false;
         }
 
@@ -66,7 +66,7 @@ public class Categories {
 
             /* Item material type */
             if ((material == null && !materialString.startsWith("SKULL"))) {
-                Utils.disable(categoryKey + " 的 category-item 设置无效!");
+                Utils.disable(categoryKey + "'s category-item is invalid!");
                 return false;
             } else if (material != null) {
                 item = new ItemStack(material);
@@ -76,7 +76,7 @@ public class Categories {
             item = new CustomItemStack(item, name);
 
             if (Registry.allItemGroups.containsKey(itemGroupKey)) {
-                Utils.disable("分类 " + categoryKey + " 已被注册!");
+                Utils.disable("Category " + categoryKey + " has already been registered!");
                 return false;
             }
 
@@ -91,11 +91,11 @@ public class Categories {
 
             if (type.equalsIgnoreCase("nested")) {
                 tempCategory = new NestedItemGroup(key, item, tier);
-                Utils.notify("已注册父分类 " + categoryKey + "!");
+                Utils.notify("Registered parent category " + categoryKey + "!");
             } else if (type.equalsIgnoreCase("sub")) {
                 String parent = categories.getString(categoryKey + ".parent");
                 if (parent == null) {
-                    Utils.disable("分类 " + categoryKey + " 的父分类无效!");
+                    Utils.disable("Category " + categoryKey + "'s parent category is invalid!");
                     return false;
                 }
 
@@ -114,12 +114,12 @@ public class Categories {
                 }
 
                 if (!(parentGroup instanceof NestedItemGroup)) {
-                    Utils.disable("分类 " + categoryKey + " 的父分类无效!");
+                    Utils.disable("Category " + categoryKey + "'s parent category is invalid!");
                     return false;
                 }
 
                 tempCategory = new SubItemGroup(key, (NestedItemGroup) parentGroup, item, tier);
-                Utils.notify("已注册子分类 " + categoryKey + " (父分类: " + parent + ")!");
+                Utils.notify("Registered sub category " + categoryKey + " (parent: " + parent + ")!");
             } else if (type.equalsIgnoreCase("seasonal")) {
                 int monthNum = categories.getInt(categoryKey + ".month");
                 Month month;
@@ -127,12 +127,12 @@ public class Categories {
                 try {
                     month = Month.of(monthNum);
                 } catch (DateTimeException ex) {
-                    Utils.disable("分类 " + categoryKey + " 的月份设置无效!");
+                    Utils.disable("Category " + categoryKey + "'s month setting is invalid!");
                     return false;
                 }
 
                 tempCategory = new SeasonalItemGroup(key, month, tier, item);
-                Utils.notify("已注册季节性分类 " + categoryKey + "!");
+                Utils.notify("Registered seasonal category " + categoryKey + "!");
             } else if (type.equalsIgnoreCase("locked")) {
                 List<String> parents = categories.getStringList(categoryKey + ".parents");
                 NamespacedKey[] parentKeys = new NamespacedKey[parents.size()];
@@ -142,10 +142,10 @@ public class Categories {
                 }
 
                 tempCategory = new LockedItemGroup(key, item, tier, parentKeys);
-                Utils.notify("已注册锁定分类 " + categoryKey + "!");
+                Utils.notify("Registered locked category " + categoryKey + "!");
             } else {
                 tempCategory = new ItemGroup(key, item, tier);
-                Utils.notify("已注册普通分类 " + categoryKey + "!");
+                Utils.notify("Registered normal category " + categoryKey + "!");
             }
 
             Registry.allItemGroups.put(categoryKey, tempCategory);
