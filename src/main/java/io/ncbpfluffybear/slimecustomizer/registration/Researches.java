@@ -21,12 +21,12 @@ public class Researches {
 
         for (String researchKey : researches.getKeys()) {
             if (researchKey.equals("example_research")) {
-                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "researches.yml 中仍包含示例研究! " +
-                    "你是不是忘记配置了?");
+                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "researches.yml still contains the example research! " +
+                    "Did you forget to configure it?");
             }
 
             if (!VALID_KEY.matcher(researchKey).matches()) {
-                Utils.disable("研究" + researchKey + " 的ID无效，只能使用[a-z0-9._-]。");
+                Utils.disable("Research " + researchKey + "'s ID is invalid, only [a-z0-9._-] are allowed.");
                 return false;
             }
 
@@ -35,15 +35,15 @@ public class Researches {
             int cost = researches.getInt(researchKey + ".cost");
             List<String> items = researches.getStringList(researchKey + ".items");
             if (researchId <= 0) {
-                Utils.disable("研究 " + researchKey + "的 id 必须大于0!");
+                Utils.disable("Research " + researchKey + "'s id must be greater than 0!");
                 return false;
             }
             if (cost <= 0) {
-                Utils.disable("研究 " + researchKey + "的 cost 必须大于0!");
+                Utils.disable("Research " + researchKey + "'s cost must be greater than 0!");
                 return false;
             }
             if (name == null) {
-                Utils.disable("研究 " + researchKey + "的 name 不能为空!");
+                Utils.disable("Research " + researchKey + "'s name cannot be empty!");
                 return false;
             }
 
@@ -52,7 +52,7 @@ public class Researches {
             for (String itemId : items) {
                 SlimefunItem sfItem = SlimefunItem.getById(itemId);
                 if (sfItem == null) {
-                    Utils.disable("研究 " + researchKey + " 的物品 " + itemId + " 不是粘液科技物品!");
+                    Utils.disable("Research " + researchKey + "'s item " + itemId + " is not a Slimefun item!");
                     return false;
                 }
                 research.addItems(sfItem);
@@ -60,7 +60,7 @@ public class Researches {
 
             research.register();
 
-            Utils.notify("已注册研究 " + researchKey + "!");
+            Utils.notify("Registered research " + researchKey + "!");
 
         }
 
