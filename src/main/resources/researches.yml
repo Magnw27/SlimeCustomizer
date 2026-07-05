@@ -1,7 +1,7 @@
-# 阅读wiki获取更多信息: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Researches
+# Read the wiki for more information: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Researches
 example_research:
   id: 10086
-  name: "示例研究"
+  name: "Example Research"
   cost: 34
   items:
     - EXAMPLE_ITEM
