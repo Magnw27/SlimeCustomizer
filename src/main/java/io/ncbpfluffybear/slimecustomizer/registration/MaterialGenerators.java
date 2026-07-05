@@ -28,8 +28,8 @@ public class MaterialGenerators {
     public static boolean register(Config materialGenerators) {
         for (String genKey : materialGenerators.getKeys()) {
             if (genKey.equals("EXAMPLE_MATERIAL_GENERATOR")) {
-                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "material-generators.yml 仍包含示例材料生成器! " +
-                    "你是不是忘记配置了?");
+                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "material-generators.yml still contains the example material generator! " +
+                    "Did you forget to configure it?");
             }
 
             ItemGroup category = Utils.getCategory(materialGenerators.getString(genKey + ".category"), genKey);
@@ -42,7 +42,7 @@ public class MaterialGenerators {
             int amount = materialGenerators.getOrSetDefault(genKey + ".item-amount", 1);
 
             if (amount < 1) {
-                Utils.disable(genKey + "的 item-amount 必须为正整数!");
+                Utils.disable(genKey + "'s item-amount must be a positive integer!");
                 return false;
             }
 
@@ -61,19 +61,19 @@ public class MaterialGenerators {
             );
 
             if (cEnergyConsumption.isEmpty()) {
-                Utils.disable(genKey + "的 stats.energy-consumption 必须为整数且大于等于0!");
+                Utils.disable(genKey + "'s stats.energy-consumption must be an integer greater than or equal to 0!");
                 return false;
             } else {
                 energyConsumption = cEnergyConsumption.get();
             }
             if (cEnergyBuffer.isEmpty()) {
-                Utils.disable(genKey + "的 stats.energy-buffer 必须为整数且大于等于0!");
+                Utils.disable(genKey + "'s stats.energy-buffer must be an integer greater than or equal to 0!");
                 return false;
             } else {
                 energyBuffer = cEnergyBuffer.get();
             }
             if (cTickRate.isEmpty()) {
-                Utils.disable(genKey + "的 output.tick-rate 必须为正整数!");
+                Utils.disable(genKey + "'s output.tick-rate must be a positive integer!");
                 return false;
             } else {
                 tickRate = cTickRate.get();
@@ -87,8 +87,8 @@ public class MaterialGenerators {
                 materialGenerators.getStringList(genKey + ".item-lore").stream(),
                 Stream.of(
                     "",
-                    "&e材料生成器",
-                    "&8⇨ &7速度: &b每 " + tickRate + " 粘液刻生成一次",
+                    "&eMaterial Generator",
+                    "&8⇨ &7Speed: &bevery " + tickRate + " Slimefun ticks",
                     LoreBuilderDynamic.powerBuffer(energyBuffer),
                     LoreBuilderDynamic.powerPerSecond(energyConsumption)
                 )
@@ -104,7 +104,7 @@ public class MaterialGenerators {
             String recipeTypeString = materialGenerators.getString(genKey + ".crafting-recipe-type");
             RecipeType recipeType = Utils.getRecipeType(recipeTypeString, genKey);
             if (recipeType == null) {
-                Utils.disable(genKey + "的 crafting-recipe-type 无效! 请查阅wiki.");
+                Utils.disable(genKey + "'s crafting-recipe-type is invalid! Please check the wiki.");
                 return false;
             }
 
@@ -115,7 +115,7 @@ public class MaterialGenerators {
             int outputAmount = materialGenerators.getOrSetDefault(genKey + ".output.amount", 1);
 
             if (outputAmount < 1) {
-                Utils.disable(genKey + "的 output.amount 必须为正整数!");
+                Utils.disable(genKey + "'s output.amount must be a positive integer!");
                 return false;
             }
 
@@ -125,7 +125,7 @@ public class MaterialGenerators {
             if (outputType.equalsIgnoreCase("VANILLA")) {
                 Material vanillaMat = Material.getMaterial(outputMaterial);
                 if (vanillaMat == null) {
-                    Utils.disable(genKey + "的输出物品的 id 不是有效的原版物品ID!");
+                    Utils.disable(genKey + "'s output item id is not a valid vanilla item ID!");
                     return false;
                 } else {
                     output = new ItemStack(vanillaMat, outputAmount);
@@ -133,7 +133,7 @@ public class MaterialGenerators {
             } else if (outputType.equalsIgnoreCase("SLIMEFUN")) {
                 SlimefunItem sfMat = SlimefunItem.getById(outputMaterial);
                 if (sfMat == null) {
-                    Utils.disable(genKey + "的输出物品的 id 不是有效的粘液科技物品ID!");
+                    Utils.disable(genKey + "'s output item id is not a valid Slimefun item ID!");
                     return false;
                 } else {
                     output = new CustomItemStack(sfMat.getItem().clone(), outputAmount);
@@ -141,7 +141,7 @@ public class MaterialGenerators {
             } else if (outputType.equalsIgnoreCase("SAVEDITEM")) {
                 output = Utils.retrieveSavedItem(outputMaterial, outputAmount, true);
             } else {
-                Utils.disable(genKey + "的输出物品的类型只能为: VANILLA, SLIMEFUN, 或 SAVEDITEM!");
+                Utils.disable(genKey + "'s output item type can only be: VANILLA, SLIMEFUN, or SAVEDITEM!");
                 return false;
             }
 
@@ -151,7 +151,7 @@ public class MaterialGenerators {
             matGen.setEnergyCapacity(energyBuffer);
             matGen.register(SlimeCustomizer.getInstance());
 
-            Utils.notify("已注册材料生成器 " + genKey + "!");
+            Utils.notify("Registered material generator " + genKey + "!");
         }
 
         return true;
