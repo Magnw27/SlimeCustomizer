@@ -43,7 +43,7 @@ public final class CustomMaterialGenerator extends AbstractMachineBlock implemen
     protected ItemStack getNoEnergyItem() {
         return new CustomItemStack(
             Material.RED_STAINED_GLASS_PANE,
-            "&c电量不足"
+            "&cNot Enough Energy"
         );
     }
 
@@ -77,7 +77,7 @@ public final class CustomMaterialGenerator extends AbstractMachineBlock implemen
                 if (blockMenu.hasViewer()) {
                     blockMenu.replaceExistingItem(getStatusSlot(), new CustomItemStack(
                         Material.RED_STAINED_GLASS_PANE,
-                        "&c空间不足"
+                        "&cInsufficient Space"
                     ));
                 }
                 return false;
@@ -90,7 +90,7 @@ public final class CustomMaterialGenerator extends AbstractMachineBlock implemen
         if (blockMenu.hasViewer()) {
             blockMenu.replaceExistingItem(getStatusSlot(), new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
-                "&a生产中"
+                "&aProcessing"
             ));
         }
         return true;
@@ -117,8 +117,8 @@ public final class CustomMaterialGenerator extends AbstractMachineBlock implemen
 
         items.add(new CustomItemStack(
             Material.KNOWLEDGE_BOOK,
-            "&7速度",
-            "&7每 " + tickRate + " 粘液刻生成一次"
+            "&7Speed",
+            "&7Generates every " + tickRate + " Slimefun ticks"
         ));
         items.add(output);
 
@@ -128,6 +128,6 @@ public final class CustomMaterialGenerator extends AbstractMachineBlock implemen
     @Nonnull
     @Override
     public String getRecipeSectionLabel(@Nonnull Player p) {
-        return "&7生成:";
+        return "&7Generates:";
     }
 }
