@@ -1,9 +1,9 @@
-# 阅读wiki获取更多信息: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Solar-Generators
+# Read the wiki for more information: https://slimefun-addons-wiki.guizhanss.cn/slime-customizer/Solar-Generators
 EXAMPLE_SOLAR_GENERATOR:
   category: slime_customizer
-  generator-name: "&b示例太阳能发电机"
+  generator-name: "&bExample Solar Generator"
   generator-lore:
-  - "&7这是一个示例太阳能发电机!"
+  - "&7This is an example solar generator!"
   block-type: DAYLIGHT_DETECTOR
   stats:
     energy-production:
