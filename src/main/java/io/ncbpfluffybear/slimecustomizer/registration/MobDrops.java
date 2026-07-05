@@ -29,8 +29,8 @@ public class MobDrops {
     public static boolean register(Config drops) {
         for (String dropKey : drops.getKeys()) {
             if (dropKey.equals("EXAMPLE_DROP")) {
-                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "mob-drops.yml 文件中仍包含示例配置! " +
-                    "你是不是忘记配置了?");
+                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "mob-drops.yml still contains the example configuration! " +
+                    "Did you forget to configure it?");
             }
 
             String itemType = drops.getString(dropKey + ".item-type");
@@ -45,19 +45,19 @@ public class MobDrops {
             int chance = drops.getOrSetDefault(dropKey + ".chance", 100);
 
             if (itemType == null) {
-                Utils.disable(dropKey + "未设置 item-type!");
+                Utils.disable(dropKey + " has not set item-type!");
                 return false;
             }
             if (materialString == null) {
-                Utils.disable(dropKey + "未设置 item-id!");
+                Utils.disable(dropKey + " has not set item-id!");
                 return false;
             }
             if (amount < 1) {
-                Utils.disable(dropKey + "的 item-amount 必须为正整数!");
+                Utils.disable(dropKey + "'s item-amount must be a positive integer!");
                 return false;
             }
             if (chance < 0 || chance > 100) {
-                Utils.disable(dropKey + "的 chance 必须为 0-100!");
+                Utils.disable(dropKey + "'s chance must be between 0-100!");
                 return false;
             }
 
@@ -67,7 +67,7 @@ public class MobDrops {
 
                 /* Item material type */
                 if (material == null && !materialString.startsWith("SKULL")) {
-                    Utils.disable(dropKey + "的 item-id 无效!");
+                    Utils.disable(dropKey + "'s item-id is invalid!");
                     return false;
                 } else if (material != null) {
                     item = new ItemStack(material);
@@ -92,7 +92,7 @@ public class MobDrops {
 
                 tempStack = new SlimefunItemStack(dropKey, item);
             } else {
-                Utils.disable(dropKey + "的 item-type 只能为 CUSTOM 或 SAVEDITEM!");
+                Utils.disable(dropKey + "'s item-type can only be CUSTOM or SAVEDITEM!");
                 return false;
             }
 
@@ -103,32 +103,31 @@ public class MobDrops {
             Material eggMaterial = Material.getMaterial(egg);
 
             if (mobType == null) {
-                Utils.disable(dropKey + "的 mob 不是有效的生物类型!");
+                Utils.disable(dropKey + "'s mob is not a valid entity type!");
                 return false;
             }
 
             try {
                 mob = EntityType.valueOf(mobType);
             } catch (IllegalArgumentException e) {
-                Utils.disable(dropKey + "的 mob 不是有效的生物类型!");
+                Utils.disable(dropKey + "'s mob is not a valid entity type!");
                 return false;
             }
 
             if (mob == EntityType.UNKNOWN) {
-                Utils.disable(dropKey + "的 mob 不是有效的生物类型!");
+                Utils.disable(dropKey + "'s mob is not a valid entity type!");
                 return false;
             }
 
             if (eggMaterial == null) {
-                Utils.disable(dropKey + "的 recipe-display-item 不是有效的原版物品ID!");
+                Utils.disable(dropKey + "'s recipe-display-item is not a valid vanilla item ID!");
                 return false;
             }
 
             /* Crafting recipe */
             ItemStack[] recipe = new ItemStack[] {
                     null, null, null,
-                    null, new CustomItemStack(eggMaterial, "&b" + Utils.capitalize(mobType), "&7击杀 "
-                    + EntityTypeHelper.getName(mob))
+                    null, new CustomItemStack(eggMaterial, "&b" + Utils.capitalize(mobType), "&7Kill " + EntityTypeHelper.getName(mob))
             };
 
             if (itemType.equalsIgnoreCase("CUSTOM")) {
@@ -139,7 +138,7 @@ public class MobDrops {
                 ).register(SlimeCustomizer.getInstance());
             }
 
-            Utils.notify("已注册生物掉落物品 " + dropKey + "!");
+            Utils.notify("Registered mob drop item " + dropKey + "!");
         }
 
         return true;
