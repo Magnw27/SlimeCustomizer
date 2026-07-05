@@ -25,8 +25,8 @@ public class Machines {
     public static boolean register(Config machines) {
         for (String machineKey : machines.getKeys()) {
             if (machineKey.equals("EXAMPLE_MACHINE")) {
-                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "machines.yml 中仍包含示例机器! " +
-                    "你是不是忘记配置了?");
+                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "machines.yml still contains the example machine! " +
+                    "Did you forget to configure it?");
             }
 
             SCMachine machine = new SCMachine(machines, machineKey, "machine");
@@ -53,12 +53,12 @@ public class Machines {
                 try {
                     speed = Integer.parseInt(machines.getString(path + ".speed-in-seconds"));
                 } catch (NumberFormatException e) {
-                    Utils.disable(machineKey + "的机器配方 " + recipeKey + " 的 speed-in-seconds 必须为正整数!");
+                    Utils.disable(machineKey + "'s machine recipe " + recipeKey + "'s speed-in-seconds must be a positive integer!");
                     return false;
                 }
 
                 if (speed < 0) {
-                    Utils.disable(machineKey + "的机器配方 " + recipeKey + " 的 speed-in-seconds 必须为正整数!");
+                    Utils.disable(machineKey + "'s machine recipe " + recipeKey + "'s speed-in-seconds must be a positive integer!");
                     return false;
                 }
 
@@ -78,13 +78,11 @@ public class Machines {
                         String material = machines.getString(path + "." + slot + "." + transIndex + ".id");
 
                         if (type == null) {
-                            Utils.disable(machineKey + "的配方 " + recipeKey + " 的第" + transIndex
-                                + "个" + slot + "物品的类型未填写!");
+                            Utils.disable(machineKey + "'s recipe " + recipeKey + "'s " + transIndex + "th " + slot + " item type is not set!");
                             return false;
                         }
                         if (material == null) {
-                            Utils.disable(machineKey + "的配方 " + recipeKey + " 的第" + transIndex
-                                + "个" + slot + "物品的ID未填写!");
+                            Utils.disable(machineKey + "'s recipe " + recipeKey + "'s " + transIndex + "th " + slot + " item ID is not set!");
                             return false;
                         } else {
                             material = material.toUpperCase();
@@ -96,22 +94,19 @@ public class Machines {
                         try {
                             amount = Integer.parseInt(machines.getString(path + "." + slot + "." + transIndex + ".amount"));
                         } catch (NumberFormatException e) {
-                            Utils.disable(machineKey + "的配方 " + recipeKey + " 的第" + transIndex
-                                + "个" + slot + "物品的数量必须为正整数!");
+                            Utils.disable(machineKey + "'s recipe " + recipeKey + "'s " + transIndex + "th " + slot + " item amount must be a positive integer!");
                             return false;
                         }
 
                         if (amount < 0) {
-                            Utils.disable(machineKey + "的配方 " + recipeKey + " 的第" + transIndex
-                                + "个" + slot + "物品的数量必须为正整数!");
+                            Utils.disable(machineKey + "'s recipe " + recipeKey + "'s " + transIndex + "th " + slot + " item amount must be a positive integer!");
                             return false;
                         }
 
                         if (type.equalsIgnoreCase("VANILLA")) {
                             Material vanillaMat = Material.getMaterial(material);
                             if (vanillaMat == null) {
-                                Utils.disable(machineKey + "的配方 " + recipeKey + " 的第" + transIndex
-                                    + "个" + slot + "物品不是有效的原版物品!");
+                                Utils.disable(machineKey + "'s recipe " + recipeKey + "'s " + transIndex + "th " + slot + " item is not a valid vanilla item!");
                                 return false;
                             } else {
                                 if (i == 0) {
@@ -140,8 +135,7 @@ public class Machines {
                         } else if (type.equalsIgnoreCase("SLIMEFUN")) {
                             SlimefunItem sfMat = SlimefunItem.getById(material);
                             if (sfMat == null) {
-                                Utils.disable(machineKey + "的配方 " + recipeKey + " 的第" + transIndex
-                                    + "个" + slot + "物品不是有效的粘液科技物品!");
+                                Utils.disable(machineKey + "'s recipe " + recipeKey + "'s " + transIndex + "th " + slot + " item is not a valid Slimefun item!");
                             } else {
                                 if (i == 0) {
                                     if (transIndex == 1) {
@@ -190,7 +184,7 @@ public class Machines {
                                 }
                             }
                         } else if (!(type.equalsIgnoreCase("NONE") && transIndex == 2)) {
-                            Utils.disable(machineKey + "的配方 " + recipeKey + " 的第一个" + slot + "物品类型只能为 VANILLA, SLIMEFUN, 或 SAVEDITEM, 第二个" + slot + "物品类型只能为 VANILLA, SLIMEFUN, SAVEDITEM 或 NONE!");
+                            Utils.disable(machineKey + "'s recipe " + recipeKey + "'s first " + slot + " item type can only be VANILLA, SLIMEFUN, or SAVEDITEM, and the second " + slot + " item type can only be VANILLA, SLIMEFUN, SAVEDITEM or NONE!");
                         }
                     }
                 }
@@ -221,7 +215,7 @@ public class Machines {
                 machineKey, machine.getProgressItem(), machine.getEnergyConsumption(), machine.getEnergyBuffer(),
                 customRecipe).register(SlimeCustomizer.getInstance());
 
-            Utils.notify("已注册机器 " + machineKey + "!");
+            Utils.notify("Registered machine " + machineKey + "!");
 
         }
 
