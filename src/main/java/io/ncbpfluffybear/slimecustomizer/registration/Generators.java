@@ -26,8 +26,8 @@ public class Generators {
     public static boolean register(Config generators) {
         for (String generatorKey : generators.getKeys()) {
             if (generatorKey.equals("EXAMPLE_GENERATOR")) {
-                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "generators.yml 仍包含示例发电机! " +
-                    "你是不是忘记配置了?");
+                SlimeCustomizer.getInstance().getLogger().log(Level.WARNING, "generators.yml still contains the example generator! " +
+                    "Did you forget to configure it?");
             }
 
             SCMachine generator = new SCMachine(generators, generatorKey, "generator");
@@ -49,12 +49,12 @@ public class Generators {
                 try {
                     time = Integer.parseInt(generators.getString(path + ".time-in-seconds"));
                 } catch (NumberFormatException e) {
-                    Utils.disable("在" + generatorKey + "的配方" + recipeKey + "里,time-in-seconds必须是正整数！");
+                    Utils.disable("In " + generatorKey + "'s recipe " + recipeKey + ", time-in-seconds must be a positive integer!");
                     return false;
                 }
 
                 if (time < 0) {
-                    Utils.disable("在" + generatorKey + "的配方" + recipeKey + "里,time-in-seconds必须是正整数！");
+                    Utils.disable("In " + generatorKey + "'s recipe " + recipeKey + ", time-in-seconds must be a positive integer!");
                     return false;
                 }
 
@@ -74,8 +74,8 @@ public class Generators {
 
                     /* Validate amount */
                     if (i == 0 && type.equalsIgnoreCase("NONE")) {
-                        Utils.disable("配方" + recipeKey + "的输入类型(目标发电机:" + generatorKey
-                            + ")只能为VANILLA或SLIMEFUN!");
+                        Utils.disable("Recipe " + recipeKey + "'s input type (target generator: " + generatorKey
+                            + ") can only be VANILLA or SLIMEFUN!");
                         return false;
                     }
 
@@ -83,23 +83,20 @@ public class Generators {
                         try {
                             amount = Integer.parseInt(generators.getString(path + "." + slot + ".amount"));
                         } catch (NumberFormatException e) {
-                            Utils.disable(generatorKey + "的配方" + recipeKey + "的" + slot + "物品数量"
-                                + "必须为正整数!");
+                            Utils.disable(generatorKey + "'s recipe " + recipeKey + "'s " + slot + " item amount must be a positive integer!");
                             return false;
                         }
                     }
 
                     if (amount < 0) {
-                        Utils.disable(generatorKey + "的配方" + recipeKey + "的" + slot + "物品数量"
-                            + "必须为正整数!");
+                        Utils.disable(generatorKey + "'s recipe " + recipeKey + "'s " + slot + " item amount must be a positive integer!");
                         return false;
                     }
 
                     if (type.equalsIgnoreCase("VANILLA")) {
                         Material vanillaMat = Material.getMaterial(material);
                         if (vanillaMat == null) {
-                            Utils.disable(generatorKey + "的配方" + recipeKey + "的" + slot + "物品"
-                                + "不是有效的原版物品!");
+                            Utils.disable(generatorKey + "'s recipe " + recipeKey + "'s " + slot + " item is not a valid vanilla item!");
                             return false;
                         } else {
                             if (i == 0) {
@@ -115,8 +112,7 @@ public class Generators {
                     } else if (type.equalsIgnoreCase("SLIMEFUN")) {
                         SlimefunItem sfMat = SlimefunItem.getById(material);
                         if (sfMat == null) {
-                            Utils.disable(generatorKey + "的配方" + recipeKey + "的" + slot + "物品"
-                                + "不是有效的粘液科技物品!");
+                            Utils.disable(generatorKey + "'s recipe " + recipeKey + "'s " + slot + " item is not a valid Slimefun item!");
                             return false;
                         } else {
                             if (i == 0) {
@@ -141,12 +137,10 @@ public class Generators {
                         }
                     } else if (i == 0) {
 
-                        Utils.disable(generatorKey + "的配方" + recipeKey + "的" + slot + "物品类型只能为"
-                            + "VANILLA, SLIMEFUN 或 SAVEDITEM!");
+                        Utils.disable(generatorKey + "'s recipe " + recipeKey + "'s " + slot + " item type can only be VANILLA, SLIMEFUN or SAVEDITEM!");
                         return false;
                     } else if (!type.equalsIgnoreCase("NONE")) {
-                        Utils.disable(generatorKey + "的配方" + recipeKey + "的" + slot + "物品类型只能为"
-                            + "VANILLA, SLIMEFUN, SAVEDITEM 或 NONE!");
+                        Utils.disable(generatorKey + "'s recipe " + recipeKey + "'s " + slot + " item type can only be VANILLA, SLIMEFUN, SAVEDITEM or NONE!");
                         return false;
                     }
                 }
@@ -161,7 +155,7 @@ public class Generators {
                 generator.getEnergyBuffer(), customRecipe
             ).register(SlimeCustomizer.getInstance());
 
-            Utils.notify("已注册发电机 " + generatorKey + "!");
+            Utils.notify("Registered generator " + generatorKey + "!");
         }
 
         return true;
