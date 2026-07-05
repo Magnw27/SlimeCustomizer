@@ -118,7 +118,9 @@ public class SCMenu extends ChestMenu {
         return this.getMenuClickHandler(slot) != null;
     }
 
-    public void setSize(int size) {
+    @Override
+    public ChestMenu setSize(int size) {
         addItem(size - 1, null);
+        return this;
     }
 }
